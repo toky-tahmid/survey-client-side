@@ -13,6 +13,7 @@ import Pricing from "./Components/Pricing/Pricing";
 import SurveyCreation from "./Components/Dashboard/SurveyCreation/SurveyCreation";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import AllUsers from "./Components/Dashboard/AllUsers/AllUsers";
+import SurveyDetails from "./Components/SurveysAll/SurveyDetails";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,7 +36,12 @@ const router = createBrowserRouter([
         path: "/surveys",
         element: <SurveysAll></SurveysAll>,
       },
-      
+      {
+        path: "/allSurveys/:id",
+        element: <SurveyDetails></SurveyDetails>,
+        loader:({ params })=>fetch(`http://localhost:5000/allSurveys/${params.id}`)
+        
+      }, 
       {
         path: "/pricing",
         element: <Pricing></Pricing>,   

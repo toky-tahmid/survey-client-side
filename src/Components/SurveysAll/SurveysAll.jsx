@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 const SurveysAll = () => {
     const [surveys, setSurveys] = useState([]);
     const fetchSurveys = () => {
@@ -21,21 +22,18 @@ const SurveysAll = () => {
                   {survey.title}
                 </h5>
                 <h5 className="text-xl text-center antialiased font-semibold">
-            Description: {survey.description}
+            Description: {survey.short_description}
                 </h5>
                 <h5 className="text-xl text-center antialiased font-semibold">
                 Votes: {survey.total_votes}
                 </h5>
               </div>
               <div className="flex my-auto">
-                {/* <Link to={`/postUpdated/${postedJob._id}`}>
-                  <button className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 mr-2 rounded focus:outline-none focus:ring h-12 focus:border-blue-300">
-                    Update
-                  </button>
-                </Link> */}
+                <Link to={`/allSurveys/${survey._id}`}>
                 <button className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 mr-2 rounded focus:outline-none focus:ring h-12 focus:border-blue-300">
                 Details
                   </button>
+                </Link>
               </div>
             </div>
           </div>

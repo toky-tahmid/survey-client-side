@@ -10,12 +10,16 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "../firebase/firebase.config";
+import useAxiosPublic from "../Components/Dashboard/useAxiosPublic";
+
 
 export const AuthContext = createContext(null);
 const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
+
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const axiosPublic = useAxiosPublic()
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -42,47 +46,29 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-  //     // const userEmail = currentUser?.email || user?.email;
-  //     // const loggedUser = { email: userEmail };
-  //     setUser(currentUser);
-  //     console.log("current user", currentUser);
-  //     setLoading(false);
-  //     // if user exists then issue a token
-  //     // if (currentUser) {
-  //     //   axios
-  //     //     .post("https://server-site-theta-two.vercel.app/jwt", loggedUser, {
-  //     //       withCredentials: true,
-  //     //     })
-  //     //     .then((res) => {
-  //     //       console.log("token response", res.data);
-  //     //     });
-  //     // } else {
-  //     //   axios
-  //     //     .post("https://server-site-theta-two.vercel.app/logout", loggedUser, {
-  //     //       withCredentials: true,
-  //     //     })
-  //     //     .then((res) => {
-  //     //       console.log(res.data);
-  //     //     });
-  //     // }
-  //   });
-  //   return () => {
-  //     return unsubscribe();
-  //   };
-  // }, []);
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-        setUser(user);
-        setLoading(false)
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, currentUser => {
+      setUser(currentUser);
+      if (currentUser) {
 
-    });
-    return () => {
-        unsubscribe()
-
-    }
-}, []);
+          const userInfo = { email: currentUser.email };
+          axiosPublic.post('/jwt', userInfo)
+              .then(res => {
+                  if (res.data.token) {
+                      localStorage.setItem('access-token', res.data.token);
+                      setLoading(false);
+                  }
+              }) }
+      else {
+        
+          localStorage.removeItem('access-token');
+          setLoading(false);
+      }
+  });
+  return () => {
+      return unsubscribe();
+  }
+}, [axiosPublic])
 
   const authInfo = {
     user,
