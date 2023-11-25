@@ -1,8 +1,11 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
+import useAxiosPublic from "../Dashboard/useAxiosPublic";
 
 const Register = () => {
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
   const { createUser, UpdateProfile } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -26,10 +29,25 @@ const Register = () => {
       .then((res) => {
         console.log(res);
         UpdateProfile(name, photo).then(() => {
-          setSuccessMessage("Registered successfully!");
-          setErrorMessage("");
+          const userInfo = {
+            name: name,
+            email:email
+        }
+        axiosPublic.post('/users', userInfo)
+        .then(res=>{
+          if (res.data.insertedId){
+            setSuccessMessage("Registered successfully!");
+            setErrorMessage("");
+          }
+          navigate('/')
+        })
+        
+         
         });
       })
+
+
+
       .catch((error) => {
         console.error("Registration failed:", error);
         setErrorMessage("Registration failed.");

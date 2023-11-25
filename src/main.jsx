@@ -11,6 +11,8 @@ import Root from "./Components/Root/Root";
 import SurveysAll from "./Components/SurveysAll/SurveysAll";
 import Pricing from "./Components/Pricing/Pricing";
 import SurveyCreation from "./Components/Dashboard/SurveyCreation/SurveyCreation";
+import Dashboard from "./Components/Dashboard/Dashboard";
+import AllUsers from "./Components/Dashboard/AllUsers/AllUsers";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -33,21 +35,29 @@ const router = createBrowserRouter([
         path: "/surveys",
         element: <SurveysAll></SurveysAll>,
       },
-      {
-        path: "/dashboard",
-        element: <SurveyCreation></SurveyCreation>
-      },
+      
       {
         path: "/pricing",
-        element: <Pricing></Pricing>,
-        
-      },
-      
-      
-       
-       
+        element: <Pricing></Pricing>,   
+      },        
     ],
-  },
+},
+{
+  path: "/dashboard",
+  element: <Dashboard></Dashboard>,
+  children:[
+    {
+      path:"/dashboard/addSurveys",
+      element:<SurveyCreation></SurveyCreation>
+    },
+    {
+      path:"/dashboard/manageUsers",
+      element:<AllUsers></AllUsers>
+    }
+  ]
+},
+
+
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
