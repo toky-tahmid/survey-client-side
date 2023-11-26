@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
-import { FaThumbsUp } from "react-icons/fa";    
+import { FaThumbsUp } from "react-icons/fa";
+import Swal from "sweetalert2"; 
 const SurveyDetails = () => {
   const surveyDetailsCard = useLoaderData();
   const { title, long_description, _id } = surveyDetailsCard;
   const [likeCount, setLikeCount] = useState(0);
   const [dislikeCount, setDislikeCount] = useState(0);
-
   const handleLike = () => {
     setLikeCount(likeCount + 1);
   };
   const handleDislike = () => {
     setDislikeCount(dislikeCount + 1);
   };
+
   const handleVote = async () => {
     try {
       const response = await fetch(`http://localhost:5000/allSurveys/${_id}`, {
@@ -22,34 +23,52 @@ const SurveyDetails = () => {
         },
         body: JSON.stringify({ $inc: { total_votes: 1 } })
       });
-  
       const updatedSurvey = await response.json();
       console.log(updatedSurvey);
     } catch (error) {
       console.error("Error", error);
     }
   };
+  const handleReport = async () => {
+    const { value: text } = await Swal.fire({
+      input: "textarea",
+      inputLabel: "Message",
+      inputPlaceholder: "Type your message here...",
+      inputAttributes: {
+        "aria-label": "Type your message here"
+      },
+      showCancelButton: true
+    });
+    if (text) {
+      Swal.fire({
+        title: 'Report submitted!',
+        text: 'Thank you for your feedback.',
+        icon: 'success'
+      });
+    }
+  };
+
   return (
-    <div className="card w-96 bg-base-100 shadow-xl">
+    <div className="card w-96 mx-auto bg-gradient-to-r from-blue-300 to-purple-300 shadow-2xl rounded-lg p-6">
       <div className="card-body">
-        <h2 className="card-title">Title: {title}</h2>
-        <p className="text-xl">{long_description}</p>
-        <div className="card-actions mt-5 justify-centre">
-          <button className="btn btn-sm" onClick={handleLike}>
-            <FaThumbsUp></FaThumbsUp>
-            Like
+        <h2 className="card-title text-3xl font-bold text-white">Title: {title}</h2>
+        <p className="text-lg text-white">{long_description}</p>
+        <div className="card-actions mt-5 flex justify-between items-center">
+          <button className="btn btn-sm bg-blue-600 text-white" onClick={handleLike}>
+            <FaThumbsUp className="text-white"></FaThumbsUp>
             <div className="badge badge-secondary">{likeCount}</div>
           </button>
-          <button className="btn btn-sm" onClick={handleDislike}>
+          <button className="btn btn-sm bg-red-300 text-white" onClick={handleDislike}>
             <FaThumbsUp className="transform rotate-180"></FaThumbsUp>
-            Dislike
-            <div className="badge badge-secondary">{dislikeCount}</div>
+            <div className="badge">{dislikeCount}</div>
           </button>
         </div>
         <button className="btn btn-sm mt-5 btn-primary" onClick={handleVote}>
           Vote
         </button>
-        <button className="btn btn-sm btn-primary">Report</button>
+        <button className="btn btn-sm btn-primary" onClick={handleReport}>
+          Report
+        </button>
       </div>
     </div>
   );

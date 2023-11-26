@@ -14,6 +14,9 @@ import SurveyCreation from "./Components/Dashboard/SurveyCreation/SurveyCreation
 import Dashboard from "./Components/Dashboard/Dashboard";
 import AllUsers from "./Components/Dashboard/AllUsers/AllUsers";
 import SurveyDetails from "./Components/SurveysAll/SurveyDetails";
+import ManageSurveys from "./Components/Dashboard/ManageSurveys/ManageSurveys";
+import UpdateSurveys from "./Components/Dashboard/ManageSurveys/UpdateSurveys";
+import AdminHome from "./Components/Dashboard/AdminHome/AdminHome";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,7 +25,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home></Home>,    
+        element: <Home></Home>,
       },
       {
         path: "/login",
@@ -39,37 +42,50 @@ const router = createBrowserRouter([
       {
         path: "/allSurveys/:id",
         element: <SurveyDetails></SurveyDetails>,
-        loader:({ params })=>fetch(`http://localhost:5000/allSurveys/${params.id}`)
-        
-      }, 
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/allSurveys/${params.id}`),
+      },
       {
         path: "/pricing",
-        element: <Pricing></Pricing>,   
-      },        
+        element: <Pricing></Pricing>,
+      },
     ],
-},
-{
-  path: "/dashboard",
-  element: <Dashboard></Dashboard>,
-  children:[
-    {
-      path:"/dashboard/addSurveys",
-      element:<SurveyCreation></SurveyCreation>
-    },
-    {
-      path:"/dashboard/manageUsers",
-      element:<AllUsers></AllUsers>
-    }
-  ]
-},
-
-
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard></Dashboard>,
+    children: [
+      {
+        path: "/dashboard/adminHome",
+        element: <AdminHome></AdminHome>,
+      },
+      {
+        path: "/dashboard/addSurveys",
+        element: <SurveyCreation></SurveyCreation>,
+      },
+      {
+        path: "/dashboard/manageUsers",
+        element: <AllUsers></AllUsers>,
+      },
+      {
+        path: "/dashboard/manageSurveys",
+        element: <ManageSurveys></ManageSurveys>,
+        loader: () => fetch("http://localhost:5000/allSurveys"),
+      },
+      {
+        path: "/dashboard/updateSurvey/:id",
+        element:<UpdateSurveys></UpdateSurveys>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/allSurveys/${params.id}`),
+      },
+    ],
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </AuthProvider>
   </React.StrictMode>
 );
