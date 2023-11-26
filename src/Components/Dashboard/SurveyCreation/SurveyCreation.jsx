@@ -100,11 +100,11 @@ const SurveyCreation = () => {
               <select
                 className="w-full px-4 py-2 rounded "
                 name="category"
-                required
-              >
-                <option value="Web Development">Web Development</option>
-                <option value="Digital Marketing">Digital Marketing </option>
-                <option value="Digital Marketing">Graphics Design </option>
+                required>
+                <option value="Customer Satisfaction Surveys">Customer Satisfaction Surveys</option>
+                <option value="Employee Engagement Surveys">Employee Engagement Surveys </option>
+                <option value="Market Research Surveys">Market Research Surveys </option>
+                <option value="Product Feedback Surveys">Product Feedback Surveys </option>
               </select>
             </div>
             <div className="mb-4">
@@ -122,26 +122,11 @@ const SurveyCreation = () => {
                 </label>
               </div>
             </div>
-
-            {/* Like/Dislike options */}
-            {/* <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-600">Like or Dislike</label>
-              <div className="flex items-center space-x-4">
-                <label>
-                  <input type="radio" name="likeDislike" value="like" required />
-                  Like
-                </label>
-                <label>
-                  <input type="radio" name="likeDislike" value="dislike" />
-                  Dislike
-                </label>
-              </div>
-            </div> */}
             <button
               type="submit"
               className="mt-4 w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white p-3 rounded hover:from-pink-600 hover:to-purple-600 transition duration-300"
             >
-              Add Job
+              Add Survey
             </button>
           </form>
         </div>
