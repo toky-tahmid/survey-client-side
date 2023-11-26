@@ -126,7 +126,7 @@ const SurveyCreation = () => {
               type="submit"
               className="mt-4 w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white p-3 rounded hover:from-pink-600 hover:to-purple-600 transition duration-300"
             >
-              Add Survey
+              Add Survey   
             </button>
           </form>
         </div>
