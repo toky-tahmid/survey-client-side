@@ -9,7 +9,6 @@ const HowItWorks = () => {
             <div>
                 <img className="max-w-7xl mx-auto" src={banner} alt="" />
             </div>
-            <p className="text-[8px] text-center">Edited by Rafi</p>
         </div>
     );
 };

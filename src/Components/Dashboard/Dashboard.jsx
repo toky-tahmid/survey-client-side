@@ -1,18 +1,25 @@
-import {
-  FaDonate,
-  FaHome,
-  FaList,
-  FaMoneyBill,
-  FaUsers,
-} from "react-icons/fa";
-import { NavLink, Outlet } from "react-router-dom";
+import { useContext } from "react";
+import { FaDonate, FaHome, FaList, FaMoneyBill, FaUsers } from "react-icons/fa";
+import { NavLink, Outlet, useLoaderData } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthProvider";
 const Dashboard = () => {
+  const users = useLoaderData();
+console.log(users);
+const { user } = useContext(AuthContext);
+console.log(user);
+const currentUser = users.find(user1 => user1.email === user?.email);
+console.log('Current User:', currentUser);
+
   return (
     <div className="flex">
       {/* dashboard side bar */}
       <div className="w-64 min-h-screen bg-gradient-to-r from-blue-300 to-purple-400">
         <ul className="menu p-4">
-          <li>
+          
+           {
+            currentUser.role === 'admin' && 
+            <>
+             <li>
             <NavLink to="/dashboard/adminHome">
               <FaHome></FaHome>
               Admin Home
@@ -25,9 +32,20 @@ const Dashboard = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/userHome">
+            <NavLink to="/dashboard/paymentHistory">
+              <FaMoneyBill></FaMoneyBill>
+              Payment
+            </NavLink>
+          </li>
+            </>
+
+           }
+          {currentUser.role === 'surveyor' && 
+            <>
+            <li>
+            <NavLink to="/dashboard/surveyorHome">
               <FaHome></FaHome>
-              User Home
+              Surveyor Home
             </NavLink>
           </li>
           <li>
@@ -42,12 +60,8 @@ const Dashboard = () => {
               Manage Surveys
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/dashboard/paymentHistory">
-              <FaMoneyBill></FaMoneyBill>
-              Payment 
-            </NavLink>
-          </li>
+            </>}
+          
 
           {/* shared nav links */}
           <div className="divider"></div>
@@ -65,7 +79,6 @@ const Dashboard = () => {
           </li> */}
         </ul>
       </div>
-      {/* dashboard content */}
       <div className="flex-1 p-10">
         <Outlet></Outlet>
       </div>

@@ -17,6 +17,8 @@ import SurveyDetails from "./Components/SurveysAll/SurveyDetails";
 import ManageSurveys from "./Components/Dashboard/ManageSurveys/ManageSurveys";
 import UpdateSurveys from "./Components/Dashboard/ManageSurveys/UpdateSurveys";
 import AdminHome from "./Components/Dashboard/AdminHome/AdminHome";
+import SurveyorHome from "./Components/Dashboard/SurveyorHome/SurveyorHome";
+import Private from "./Private/Private";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,7 +28,6 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () => fetch("http://localhost:5000/allSurveys"),
       },
       {
         path: "/login",
@@ -54,7 +55,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard></Dashboard>,
+    element: <Private><Dashboard></Dashboard></Private>,
+    loader: () => fetch("http://localhost:5000/users"),
     children: [
       {
         path: "/dashboard/adminHome",
@@ -69,13 +71,17 @@ const router = createBrowserRouter([
         element: <AllUsers></AllUsers>,
       },
       {
+        path: "/dashboard/surveyorHome",
+        element: <SurveyorHome></SurveyorHome>,
+      },
+      {
         path: "/dashboard/manageSurveys",
         element: <ManageSurveys></ManageSurveys>,
         loader: () => fetch("http://localhost:5000/allSurveys"),
       },
       {
         path: "/dashboard/updateSurvey/:id",
-        element:<UpdateSurveys></UpdateSurveys>,
+        element: <UpdateSurveys></UpdateSurveys>,
         loader: ({ params }) =>
           fetch(`http://localhost:5000/allSurveys/${params.id}`),
       },
