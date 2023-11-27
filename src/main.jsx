@@ -9,7 +9,6 @@ import Register from "./Components/Register/Register";
 import AuthProvider from "./providers/AuthProvider";
 import Root from "./Components/Root/Root";
 import SurveysAll from "./Components/SurveysAll/SurveysAll";
-import Pricing from "./Components/Pricing/Pricing";
 import SurveyCreation from "./Components/Dashboard/SurveyCreation/SurveyCreation";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import AllUsers from "./Components/Dashboard/AllUsers/AllUsers";
@@ -19,6 +18,7 @@ import UpdateSurveys from "./Components/Dashboard/ManageSurveys/UpdateSurveys";
 import AdminHome from "./Components/Dashboard/AdminHome/AdminHome";
 import SurveyorHome from "./Components/Dashboard/SurveyorHome/SurveyorHome";
 import Private from "./Private/Private";
+import Payment from "./Components/Pricing/Payment";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/pricing",
-        element: <Pricing></Pricing>,
+        element: <Payment></Payment>,
       },
     ],
   },

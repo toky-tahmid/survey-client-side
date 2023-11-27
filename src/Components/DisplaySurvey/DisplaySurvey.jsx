@@ -15,10 +15,8 @@ const DisplaySurvey = () => {
     const sortedSurveys = [...surveys].sort((a, b) => b.timestamp - a.timestamp);
     return sortedSurveys.slice(0, 6);
   };
-
   const featuredSurveys = getMostVotedSurveys();
   const latestSurveys = getLatestSurveys();
-
   return (
     <div>
       <div>
