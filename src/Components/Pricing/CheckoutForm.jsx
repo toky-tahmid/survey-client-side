@@ -1,5 +1,6 @@
-
-import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
+// Frontend: CheckoutForm.js
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import Swal from "sweetalert2";
 
 const CheckoutForm = () => {
   const stripe = useStripe();
@@ -7,64 +8,62 @@ const CheckoutForm = () => {
 
   const handlePayment = async (event) => {
     event.preventDefault();
-
     if (!stripe || !elements) {
-      // Stripe.js has not loaded yet.
-      // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
-    // Get the payment method from the card element
     const cardElement = elements.getElement(CardElement);
-
-    // Create a PaymentMethod
     const { paymentMethod, error } = await stripe.createPaymentMethod({
-      type: 'card',
+      type: "card",
       card: cardElement,
     });
 
     if (error) {
       console.error(error);
     } else {
-      // Handle successful payment, you can send the paymentMethod.id to your server
-      console.log('PaymentMethod:', paymentMethod);
-      // Call your server to handle the payment and deduct the balance
-      // Replace the following with your server-side logic to handle the payment
-      // For example, you can use fetch to send the payment information to your server
+      try {
+        const response = await fetch("http://localhost:5000/create-payment-intent", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ paymentMethodId: paymentMethod.id }), // Send the paymentMethod.id
+        });
 
-      // fetch('/your-server-endpoint', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ paymentMethodId: paymentMethod.id }),
-      // })
-      //   .then(response => response.json())
-      //   .then(result => {
-      //     // Handle server response (e.g., update UI, show success message)
-      //     console.log(result);
-      //   });
+        const result = await response.json();
+      console.log(result);
+        
+        // Display success message if the payment is successful
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "You have become a Pro user",
+          showConfirmButton: false,
+          timer: 1500,
+        });
 
-      // For now, let's just log a message
-      console.log('Payment successful! Deduct the balance on your server.');
+        console.log("Payment successful! Deduct the balance on your server.",paymentMethod);
+      } catch (error) {
+        console.error("Error processing payment on the server:", error);
+      }
     }
   };
+
   return (
     <form onSubmit={handlePayment}>
-      <div className="max-w-sm rounded overflow-hidden shadow-lg bg-purple-500 p-6 m-4">
+      <div className="max-w-sm mx-auto rounded overflow-hidden shadow-lg bg-purple-500 p-6 m-4">
         <div className="text-center">
-          <h3 className="text-xl font-semibold mb-2">Become a Pro User</h3>
-          <div className="text-4xl font-bold mb-2">$58</div>
-          <p className="text-gray-700">per month</p>
+          <h3 className="text-3xl font-bold text-white mb-2">
+            Become a Pro User
+          </h3>
+          <div className="text-4xl font-bold text-white mb-2">$39</div>
         </div>
         <div className="mt-4">
           <label className="block text-white">Card Details</label>
           <CardElement className="border p-2 rounded bg-white" />
         </div>
-        <button
-          type="submit"
-          className="w-full mt-4 bg-purple-500 text-white py-2 px-4 rounded hover:bg-red-700 focus:outline-none focus:shadow-outline">
-          Buy Now
+        <button type="submit" className="w-full btn btn-outline btn-success mt-5">
+          Pro Now
         </button>
       </div>
     </form>
