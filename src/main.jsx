@@ -19,7 +19,7 @@ import AdminHome from "./Components/Dashboard/AdminHome/AdminHome";
 import SurveyorHome from "./Components/Dashboard/SurveyorHome/SurveyorHome";
 import Private from "./Private/Private";
 import Payment from "./Components/Pricing/Payment";
-import PaymentCard from "./Components/Pricing/PaymentCard";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -52,10 +52,7 @@ const router = createBrowserRouter([
         path: "/pricing",
         element: <Payment></Payment>,
       },
-      // {
-      //   path:'/pricing',
-      //   element: <PaymentCard></PaymentCard>,
-      // }
+      
     ],
   },
   {

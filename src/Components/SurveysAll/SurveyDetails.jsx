@@ -75,6 +75,7 @@ const SurveyDetails = () => {
       console.error("Error submitting review:", error);
     }
   }; 
+  
   return (
     <div className="card w-96 mx-auto bg-gradient-to-r from-blue-300 to-purple-300 shadow-2xl rounded-lg p-6">
       <div className="card-body">

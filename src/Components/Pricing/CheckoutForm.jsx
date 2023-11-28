@@ -6,9 +6,32 @@ import { AuthContext } from "../../providers/AuthProvider";
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
+  // eslint-disable-next-line no-unused-vars
   const [clientSecret, setClientSecret] = useState("");
   const { user } = useContext(AuthContext);
   console.log(user);
+  // const updateUserRole = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:5000/user/updateRole", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         userId: user._id,
+  //         newRole: "proUser",
+  //       }),
+  //     });
+  //     const data = await response.json();
+  //     if (response.ok) {
+  //       console.log("User role updated successfully:", data);
+  //     } else {
+  //       console.error("Error updating user role:", data);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating user role:", error);
+  //   }
+  // };
   const handlePayment = async (event) => {
     event.preventDefault();
     if (!stripe || !elements) {
@@ -18,7 +41,6 @@ const CheckoutForm = () => {
     const { paymentMethod, error } = await stripe.createPaymentMethod({
       type: "card",
       card: cardElement,
-
     });
     if (error) {
       console.error(error);
@@ -35,7 +57,7 @@ const CheckoutForm = () => {
           }
         );
         const result = await response.json();
-        console.log('result',result);
+        console.log("result", result);
         const formattedClientSecret = `${result.clientSecret}`;
         setClientSecret(formattedClientSecret);
         Swal.fire({
@@ -45,44 +67,49 @@ const CheckoutForm = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        const { paymentIntent, error: cardError } = await stripe.confirmCardPayment(
-          formattedClientSecret,
-          {
+        const { paymentIntent, error: cardError } =
+          await stripe.confirmCardPayment(formattedClientSecret, {
             payment_method: {
               card: cardElement,
               billing_details: {
                 email: user?.email || "anonymous",
                 name: user?.displayName || "anonymous",
               },
-
             },
-          }
-        );
+          });
         console.log(user.email);
         if (cardError) {
           console.log("confirm card", cardError);
         } else {
           console.log("payment intent", paymentIntent);
-          if (paymentIntent.status === 'succeeded') {
-            console.log('jamlea ase aidike');
+          if (paymentIntent.status === "succeeded") {
+            // await updateUserRole();
+            fetch(`http://localhost:5000/users?email=${user.email}`,{
+              method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({}),
+            })
+              .then((response) => response.json())
+              .then((data) => console.log(data));
+
             const payment = {
-              email: user.email, 
+              email: user.email,
               transactionId: paymentIntent.id,
-              date: new Date(), 
-              status: 'pending'
-          }
-          console.log('success');
-          try {
-            const response = await fetch('http://localhost:5000/payments', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payment)
-            });
-            const data = await response.json();
-            console.log('payment saved', data);
-        } catch (error) {
-            console.error('Error saving payment', error);
-        }
+              date: new Date(),
+              status: "pending",
+            };
+            console.log("success");
+            try {
+              const response = await fetch("http://localhost:5000/payments", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payment),
+              });
+              const data = await response.json();
+              console.log("payment saved", data);
+            } catch (error) {
+              console.error("Error saving payment", error);
+            }
           }
         }
       } catch (error) {

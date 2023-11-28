@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 const SurveysAll = () => {
   const [surveys, setSurveys] = useState([]);
   const { user } = useContext(AuthContext);
+  console.log(user);
 
   const fetchSurveys = () => {
     fetch("http://localhost:5000/allSurveys")
