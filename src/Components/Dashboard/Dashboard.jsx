@@ -28,13 +28,19 @@ console.log('Current User:', currentUser);
           <li>
             <NavLink to="/dashboard/manageUsers">
               <FaUsers></FaUsers>
+              Manage Users
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/allUsers">
+              <FaUsers></FaUsers>
               All Users
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/paymentHistory">
+            <NavLink to="/dashboard/managePayment">
               <FaMoneyBill></FaMoneyBill>
-              Payment
+              Payment History
             </NavLink>
           </li>
             </>

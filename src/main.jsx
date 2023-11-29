@@ -19,6 +19,8 @@ import AdminHome from "./Components/Dashboard/AdminHome/AdminHome";
 import SurveyorHome from "./Components/Dashboard/SurveyorHome/SurveyorHome";
 import Private from "./Private/Private";
 import Payment from "./Components/Pricing/Payment";
+import ManagePayment from "./Components/Dashboard/ManagePayment/ManagePayment";
+import SeeAllUsers from "./Components/Dashboard/SeeAllUsers/SeeAllUsers";
 
 const router = createBrowserRouter([
   {
@@ -73,6 +75,10 @@ const router = createBrowserRouter([
         element: <AllUsers></AllUsers>,
       },
       {
+        path: "/dashboard/allUsers",
+        element: <SeeAllUsers></SeeAllUsers>,
+      },
+      {
         path: "/dashboard/surveyorHome",
         element: <SurveyorHome></SurveyorHome>,
       },
@@ -80,6 +86,11 @@ const router = createBrowserRouter([
         path: "/dashboard/manageSurveys",
         element: <ManageSurveys></ManageSurveys>,
         loader: () => fetch("http://localhost:5000/allSurveys"),
+      },
+      {
+        path: "/dashboard/managePayment",
+        element: <ManagePayment></ManagePayment>,
+        // loader: () => fetch("http://localhost:5000/allSurveys"),
       },
       {
         path: "/dashboard/updateSurvey/:id",
