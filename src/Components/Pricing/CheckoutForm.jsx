@@ -10,28 +10,6 @@ const CheckoutForm = () => {
   const [clientSecret, setClientSecret] = useState("");
   const { user } = useContext(AuthContext);
   console.log(user);
-  // const updateUserRole = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:5000/user/updateRole", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         userId: user._id,
-  //         newRole: "proUser",
-  //       }),
-  //     });
-  //     const data = await response.json();
-  //     if (response.ok) {
-  //       console.log("User role updated successfully:", data);
-  //     } else {
-  //       console.error("Error updating user role:", data);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating user role:", error);
-  //   }
-  // };
   const handlePayment = async (event) => {
     event.preventDefault();
     if (!stripe || !elements) {
@@ -83,11 +61,10 @@ const CheckoutForm = () => {
         } else {
           console.log("payment intent", paymentIntent);
           if (paymentIntent.status === "succeeded") {
-            // await updateUserRole();
-            fetch(`http://localhost:5000/users?email=${user.email}`,{
+            fetch(`http://localhost:5000/users?email=${user.email}`, {
               method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({}),
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({}),
             })
               .then((response) => response.json())
               .then((data) => console.log(data));
