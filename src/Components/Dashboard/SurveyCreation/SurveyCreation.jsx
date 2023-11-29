@@ -8,14 +8,14 @@ const SurveyCreation = () => {
     const long_description = form.long_description.value;
     const title = form.title.value;
     const category = form.category.value;
-    const options = form.options.value;
+    const pending = 'unPublish'
 
     const newJobs = {
       title,
       short_description,
       long_description,
       category,
-      options,
+      pending
     };
 
     fetch("http://localhost:5000/allSurveys", {
@@ -106,21 +106,6 @@ const SurveyCreation = () => {
                 <option value="Market Research Surveys">Market Research Surveys </option>
                 <option value="Product Feedback Surveys">Product Feedback Surveys </option>
               </select>
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-600">
-                Options (Yes or No)
-              </label>
-              <div className="flex items-center space-x-4">
-                <label>
-                  <input type="radio" name="options" value="yes" required />
-                  Yes
-                </label>
-                <label>
-                  <input type="radio" name="options" value="no" />
-                  No
-                </label>
-              </div>
             </div>
             <button
               type="submit"

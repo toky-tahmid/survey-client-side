@@ -21,6 +21,7 @@ import Private from "./Private/Private";
 import Payment from "./Components/Pricing/Payment";
 import ManagePayment from "./Components/Dashboard/ManagePayment/ManagePayment";
 import SeeAllUsers from "./Components/Dashboard/SeeAllUsers/SeeAllUsers";
+import SurveyApplied from "./Components/Dashboard/SurveyApplied/SurveyApplied";
 
 const router = createBrowserRouter([
   {
@@ -90,7 +91,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/managePayment",
         element: <ManagePayment></ManagePayment>,
-        // loader: () => fetch("http://localhost:5000/allSurveys"),
+      },
+      {
+        path: "/dashboard/manageApplied",
+        element: <SurveyApplied></SurveyApplied>,
       },
       {
         path: "/dashboard/updateSurvey/:id",
@@ -101,11 +105,19 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+import {
 
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );

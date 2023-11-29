@@ -18,19 +18,22 @@ const SurveyDetails = () => {
   useEffect(() => {
     fetch("http://localhost:5000/users")
       .then((response) => response.json())
-      .then((userData) => {
-        console.log("User Data:", userData);
-        const userRole = userData[0]?.role;
-        console.log("User Role:", userRole);
-        const IsProUser = userRole === "prouser";
-        setProUser(IsProUser);
+      .then((usersData) => {
+        console.log("All Users Data:", usersData);
+        const currentUser = usersData.find((userData) => userData.email === user?.email);
+        if (currentUser && currentUser.role === "prouser") {
+          console.log("Current User is a Pro User");
+          setProUser(true);
+        } else {
+          console.log("Current User is NOT a Pro User");
+          setProUser(false);
+        }
       })
       .catch((error) => {
-        console.error("Error fetching user data:", error);
+        console.error("Error fetching users data:", error);
       });
-  }, [setProUser]);
+  }, [user, setProUser]);
   console.log(ProUser);
-
   const handleLike = () => {
     setLikeCount(likeCount + 1);
   };
@@ -93,7 +96,6 @@ const SurveyDetails = () => {
       console.error("Error submitting review:", error);
     }
   };
-
   return (
     <>
       <div className="card w-96 mx-auto bg-gradient-to-r from-blue-300 to-purple-300 shadow-2xl rounded-lg p-6">
@@ -139,7 +141,7 @@ const SurveyDetails = () => {
             <button
               className="btn btn-sm btn-primary"
               onClick={handlePost}
-              disabled={ProUser}
+              disabled={!ProUser}
             >
               Post
             </button>
@@ -151,7 +153,7 @@ const SurveyDetails = () => {
           <h2 className="card-title text-center text-white">
             Comments By ProUsers
           </h2>
-          {reviews.map((review, index) => (
+          {reviews?.map((review, index) => (
             <div
               key={index}
               className={`mb-2 ${

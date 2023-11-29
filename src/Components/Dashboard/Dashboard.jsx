@@ -43,6 +43,12 @@ console.log('Current User:', currentUser);
               Payment History
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/dashboard/manageApplied">
+              <FaMoneyBill></FaMoneyBill>
+              Applied Surveys
+            </NavLink>
+          </li>
             </>
 
            }
