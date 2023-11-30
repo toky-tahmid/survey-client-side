@@ -34,8 +34,8 @@ const DisplaySurvey = () => {
                   <h5 className="text-xl antialiased font-semibold">
                   Description  :{survey.short_description}
                   </h5>
-                  <p className="block font-sans text-base antialiased font-light leading-relaxed text-inherit">
-                    {survey.total_votes}
+                  <p className="block font-sans text-xl antialiased font-bold leading-relaxed text-inherit">
+                   vote: {survey.total_votes}
                   </p>
                 </div>
               </div>

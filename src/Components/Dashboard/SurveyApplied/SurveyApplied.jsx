@@ -32,6 +32,7 @@ const SurveyApplied = () => {
     const { fill, x, y, width, height } = props;
     return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
   };
+  
   return (
     <>
       <div>
@@ -54,7 +55,6 @@ const SurveyApplied = () => {
                   <td className="uppercase"> {apply.total_votes} </td>
                   <td>
                     <button
-                      className=""
                       onClick={async () => {
                         await setData(apply);
                         document.getElementById("my_modal_1").showModal();
@@ -64,7 +64,11 @@ const SurveyApplied = () => {
                     </button>
                   </td>
                   <td>
-
+                    <button
+                      className="max-w-[80px] w-full mr-10 font-bold text-[#1965a4be] hover:text-red-400 duration-300"
+                    >
+                      Edit
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -136,6 +140,6 @@ const SurveyApplied = () => {
       </div>
     </>
   );
-};  
+};
 
 export default SurveyApplied;

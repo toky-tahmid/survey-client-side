@@ -2,9 +2,7 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../public/281-2811269_and-the-survey-says-clip-art-payroll-logo-removebg-preview.png";
 
-
 import { AuthContext } from "../../providers/AuthProvider";
-
 const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
 
