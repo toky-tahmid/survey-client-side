@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 const DisplaySurvey = () => {
   const [surveys, setSurveys] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/allSurveys")
+    fetch(`http://localhost:5000/pendingSurvey?pending=Publish`)
       .then((response) => response.json())
       .then((data) => setSurveys(data))
       .catch((error) => console.error("Error fetching surveys:", error));

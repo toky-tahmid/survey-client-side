@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { FaDonate, FaHome, FaList, FaMoneyBill, FaUsers } from "react-icons/fa";
 import { NavLink, Outlet, useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
+import { MdPeopleAlt } from "react-icons/md";
 const Dashboard = () => {
   const users = useLoaderData();
 console.log(users);
@@ -45,7 +46,7 @@ console.log('Current User:', currentUser);
           </li>
           <li>
             <NavLink to="/dashboard/manageApplied">
-              <FaMoneyBill></FaMoneyBill>
+              <MdPeopleAlt></MdPeopleAlt>
               Applied Surveys
             </NavLink>
           </li>

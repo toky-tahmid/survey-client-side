@@ -42,7 +42,7 @@ const SurveyCreation = () => {
           });
           Toast.fire({
             icon: "success",
-            title: "Job Post Added Successfully",
+            title: "Survey Added Successfully",
           });
         }
       });
@@ -101,10 +101,10 @@ const SurveyCreation = () => {
                 className="w-full px-4 py-2 rounded "
                 name="category"
                 required>
-                <option value="Customer Satisfaction Surveys">Customer Satisfaction Surveys</option>
-                <option value="Employee Engagement Surveys">Employee Engagement Surveys </option>
-                <option value="Market Research Surveys">Market Research Surveys </option>
-                <option value="Product Feedback Surveys">Product Feedback Surveys </option>
+                <option value="Customer Satisfaction Surveys">Hobbies Surveys</option>
+                <option value="Employee Engagement Surveys">Fitness Goals Surveys </option>
+                <option value="Market Research Surveys"> Language Learning Surveys </option>
+                <option value="Product Feedback Surveys">Pet Stories Surveys </option>
               </select>
             </div>
             <button

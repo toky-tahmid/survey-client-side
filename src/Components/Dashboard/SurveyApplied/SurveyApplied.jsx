@@ -1,100 +1,66 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import useApplied from "../useApplied";
 import useAxiosPublic from "../useAxiosPublic";
-// import { AuthContext } from "../../../providers/AuthProvider";
-import { FaRegEye } from "react-icons/fa";
-
+import { MdOutlinePublishedWithChanges } from "react-icons/md";
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid } from "recharts";
+const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "red", "pink"];
 const SurveyApplied = () => {
   const [data, setData] = useState({});
-  //   const { user } = useContext(AuthContext);
   const axiosPublic = useAxiosPublic();
   const [applied, refetch] = useApplied();
   console.log(applied);
-  // const [appliedSurvey,SetAppliedSurvey] = useState()
-
-  // const fetchSurveys = () => {
-  //     fetch(`http://localhost:5000/pendingSurvey?pending=unPublish`)
-  //       .then((res) => res.json())
-  //       .then((data) => SetAppliedSurvey(data));
-  //   };
-  //   useEffect(() => {
-  //     fetchSurveys();
-  //   }, []);
-
   const handleChanging = (id) => {
     axiosPublic.patch(`/user?id=${id}`).then((res) => {
       console.log(res.data);
       if (res.data?.modifiedCount > 0) {
-        refetch()
-    }
+        refetch();
+      }
     });
   };
+  const getPath = (x, y, width, height) => {
+    return `M${x},${y + height}C${x + width / 3},${y + height} ${
+      x + width / 2
+    },${y + height / 3}
+    ${x + width / 2}, ${y}
+    C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${y + height} ${
+      x + width
+    }, ${y + height}
+    Z`;
+  };
+  const TriangleBar = (props) => {
+    const { fill, x, y, width, height } = props;
+    return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
+  };
   return (
-    // <div>
-    //   <div className="flex justify-evenly my-4">
-    //     <h2 className="text-3xl">All Payments By Pro Users</h2>
-    //     {/* <h2 className="text-3xl">Total Users: {appliedSurvey.length}</h2> */}
-    //   </div>
-    //   <div className="overflow-x-auto">
-    //     <table className="table table-zebra w-full">
-    //       <thead>
-    //         <tr>
-    //           <th>TransactionId</th>
-    //           <th>Email</th>
-    //           <th>Date</th>
-    //         </tr>
-    //       </thead>
-    //       <tbody>
-    //         {applied?.map((payment) => (
-    //           <tr key={payment._id}>
-    //             <th>{payment.title}</th>
-    //             <td>{payment.email}</td>
-    //             <td>{payment.date}</td>
-    //             <td>
-    //               <button
-    //                 onClick={() => handleChanging(payment._id)}
-    //                 className="btn btn-secondary"
-    //               >
-    //                 Survey
-    //               </button>
-    //             </td>
-    //           </tr>
-    //         ))}
-    //       </tbody>
-    //     </table>
-    //   </div>
-    // </div>
     <>
       <div>
         <div className="overflow-x-auto">
           <table className="table table-zebra w-full">
-            {/* head */}
             <thead>
               <tr className="bg-slate-300 w-full text-lg ">
-                <th>#</th>
-                <th>Name</th>
-                <th>E-mail</th>
-                <th>Role</th>
-                <th>Action</th>
+                <th>No.</th>
+                <th>Title</th>
+                <th>Time</th>
+                <th>Voted</th>
               </tr>
             </thead>
             <tbody>
-              {applied?.map((item, i) => (
-                <tr key={item._id}>
-                  <th>{i + 1}</th>
-                  <td> {item.trainerName} </td>
-                  <td> {item.email} </td>
-                  <td className="uppercase"> {item.role} </td>
+              {applied?.map((apply, index) => (
+                <tr key={apply._id}>
+                  <th>{index + 1}</th>
+                  <td> {apply.title} </td>
+                  <td> {apply.timestamp} </td>
+                  <td className="uppercase"> {apply.total_votes} </td>
                   <td>
-                    {/* Open the modal using document.getElementById('ID').showModal() method */}
                     <button
                       className=""
                       onClick={async () => {
-                        await setData(item);
+                        await setData(apply);
                         document.getElementById("my_modal_1").showModal();
                       }}
                     >
-                      <FaRegEye className="text-2xl "></FaRegEye>
+                      <MdOutlinePublishedWithChanges className="text-2xl " />
                     </button>
                   </td>
                 </tr>
@@ -103,53 +69,70 @@ const SurveyApplied = () => {
           </table>
         </div>
       </div>
-
-      {/*  runging  */}
-
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg"> {data.title} </h3>
-          {/* TODO */}
-          {/* <form ref={form} onSubmit={handleSubmit} method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"></button>
-            <input
-              className="hidden"
-              type="text"
-              defaultValue={data.name}
-              name="name"
-            />
-            <input
-              className="hidden"
-              type="email"
-              defaultValue={data.email}
-              name="email"
-            />
-            <button
-              type="submit"
-              className="badge badge-outline ml-[380px] mb-4 px-4 py-3 mt-6 "
-            >
-              Reject
-            </button>
-          </form> */}
-
-          <div className="card-actions justify-end cursor-pointer">
-            <button
-              onClick={() => handleChanging(data._id)}
-              className="badge badge-outline px-4 py-3 "
-            >
-              Confirm
-            </button>
-          </div>
-          <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn btn-secondary">Go</button>
-            </form>
+          <h3 className="font-bold text-lg text-center"> {data.title} </h3>
+          <div className="flex justify-evenly">
+            <div className="card-actions cursor-pointer">
+              <button
+                onClick={() => handleChanging(data._id)}
+                className="rounded-lg mt-6 bg-gradient-to-r from-pink-500 to-purple-500 py-3.5 px-7 font-sans text-sm font-bold uppercase text-white shadow-md hover:shadow-lg focus:shadow-outline focus:outline-none transition duration-300"
+              >
+                Publish
+              </button>
+            </div>
+            <div className="modal-action">
+              <form method="dialog">
+                <button className="btn btn-circle btn-outline">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </dialog>
+      <div>
+        <BarChart
+          width={500}
+          height={300}
+          data={applied}
+          margin={{
+            top: 20,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="title" />
+          <YAxis />
+          <Bar
+            dataKey="total_votes"
+            fill="#8884d8"
+            shape={<TriangleBar />}
+            label={{ position: "top" }}
+          >
+            {applied.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={colors[index % 20]} />
+            ))}
+          </Bar>
+        </BarChart>
+      </div>
     </>
   );
-};
+};  
 
 export default SurveyApplied;
