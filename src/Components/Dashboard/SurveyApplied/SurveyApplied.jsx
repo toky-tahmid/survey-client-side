@@ -63,6 +63,9 @@ const SurveyApplied = () => {
                       <MdOutlinePublishedWithChanges className="text-2xl " />
                     </button>
                   </td>
+                  <td>
+
+                  </td>
                 </tr>
               ))}
             </tbody>

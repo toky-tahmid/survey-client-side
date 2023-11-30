@@ -25,7 +25,7 @@ const CheckoutForm = () => {
     } else {
       try {
         const response = await fetch(
-          "http://localhost:5000/create-payment-intent",
+          "https://survey-server-mu.vercel.app/create-payment-intent",
           {
             method: "POST",
             headers: {
@@ -61,7 +61,7 @@ const CheckoutForm = () => {
         } else {
           console.log("payment intent", paymentIntent);
           if (paymentIntent.status === "succeeded") {
-            fetch(`http://localhost:5000/users?email=${user.email}`, {
+            fetch(`https://survey-server-mu.vercel.app/users?email=${user.email}`, {
               method: "PUT",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({}),
@@ -77,7 +77,7 @@ const CheckoutForm = () => {
             };
             console.log("success");
             try {
-              const response = await fetch("http://localhost:5000/payments", {
+              const response = await fetch("https://survey-server-mu.vercel.app/payments", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payment),

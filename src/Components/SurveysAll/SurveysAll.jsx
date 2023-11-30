@@ -10,22 +10,51 @@ const SurveysAll = () => {
   const { user } = useContext(AuthContext);
   const [minVotes, setMinVotes] = useState(0);
   console.log(user);
+  const userEmail = user?.email;
+  console.log(userEmail);
+  const [joinedSurveys, setJoinedSurveys] = useState([]);
   const fetchSurveys = () => {
-    fetch(`http://localhost:5000/pendingSurvey?pending=Publish`)
+    fetch(`https://survey-server-mu.vercel.app/pendingSurvey?pending=Publish`)
       .then((res) => res.json())
       .then((data) => setSurveys(data));
   };
-
-  const handleJoinSurvey = () => {
-    setTimeout(() => {
+  useEffect(() => {
+    let currentUser;
+    fetch("https://survey-server-mu.vercel.app/users")
+      .then((response) => response.json())
+      .then((usersData) => {
+        console.log("All Users Data:", usersData);
+        currentUser = usersData.find(
+          (userData) => userData?.email === user?.email
+        );
+        console.log("Current User:", currentUser);
+      })
+      .catch((error) => {
+        console.error("Error fetching users data:", error);
+      });
+  }, [user?.email]);
+  const handleJoinSurvey = (surveyId) => {
+    if (joinedSurveys.includes(surveyId)) {
       Swal.fire({
         position: "top-end",
-        icon: "success",
-        title: "Thank you for joining the survey!",
+        icon: "info",
+        title: "You have already joined this survey!",
         showConfirmButton: false,
         timer: 1500,
       });
-    }, 1000);
+      return;
+    }
+    setJoinedSurveys((alreadyJoinedSurvey) => [
+      ...alreadyJoinedSurvey,
+      surveyId,
+    ]);
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Thank you for joining the survey!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
   useEffect(() => {
     fetchSurveys();
@@ -88,7 +117,7 @@ const SurveysAll = () => {
                     </Link>
                     <button
                       className="bg-green-500 hover:bg-green-600 text-white font-medium px-4 rounded focus:outline-none focus:ring h-12 focus:border-blue-300"
-                      onClick={handleJoinSurvey}
+                      onClick={() => handleJoinSurvey(survey._id)}
                     >
                       Join Survey
                     </button>

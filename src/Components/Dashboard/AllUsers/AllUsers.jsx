@@ -6,7 +6,7 @@ const AllUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:5000/users");
+      const response = await fetch("https://survey-server-mu.vercel.app/users");
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -17,7 +17,7 @@ const AllUsers = () => {
     fetchUsers();
   }, []); 
   const handleMakeAdmin = (user) => {
-    fetch(`http://localhost:5000/users?role=admin&id=${user._id}`,
+    fetch(`https://survey-server-mu.vercel.app/users?role=admin&id=${user._id}`,
      {
       method: "PATCH",
     })
@@ -40,7 +40,7 @@ const AllUsers = () => {
       });
   };
   const handleMakeSurveyor = (user) => {
-    fetch(`http://localhost:5000/users?role=surveyor&id=${user._id}`, {
+    fetch(`https://survey-server-mu.vercel.app/users?role=surveyor&id=${user._id}`, {
       method: "PATCH",
     })
       .then((response) => response.json())

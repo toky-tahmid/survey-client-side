@@ -18,7 +18,7 @@ const SurveyCreation = () => {
       pending
     };
 
-    fetch("http://localhost:5000/allSurveys", {
+    fetch("https://survey-server-mu.vercel.app/allSurveys", {
       method: "POST",
       headers: {
         "content-type": "application/json",

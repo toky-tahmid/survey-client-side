@@ -16,7 +16,7 @@ const UpdateSurveys = () => {
       long_description,
     };
     console.log(newSurveys);
-    fetch(`http://localhost:5000/dashboard/updateSurvey/${posted._id}`, {
+    fetch(`https://survey-server-mu.vercel.app/dashboard/updateSurvey/${posted._id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",

@@ -22,7 +22,6 @@ import Payment from "./Components/Pricing/Payment";
 import ManagePayment from "./Components/Dashboard/ManagePayment/ManagePayment";
 import SeeAllUsers from "./Components/Dashboard/SeeAllUsers/SeeAllUsers";
 import SurveyApplied from "./Components/Dashboard/SurveyApplied/SurveyApplied";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -49,11 +48,11 @@ const router = createBrowserRouter([
         path: "/allSurveys/:id",
         element: <SurveyDetails></SurveyDetails>,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/allSurveys/${params.id}`),
+          fetch(`https://survey-server-mu.vercel.app/allSurveys/${params.id}`),
       },
       {
         path: "/pricing",
-        element: <Payment></Payment>,
+        element: <Private><Payment></Payment></Private>,
       },
       
     ],
@@ -61,7 +60,7 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Private><Dashboard></Dashboard></Private>,
-    loader: () => fetch("http://localhost:5000/users"),
+    loader: () => fetch("https://survey-server-mu.vercel.app/users"),
     children: [
       {
         path: "/dashboard/adminHome",
@@ -86,7 +85,7 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/manageSurveys",
         element: <ManageSurveys></ManageSurveys>,
-        loader: () => fetch("http://localhost:5000/allSurveys"),
+        loader: () => fetch("https://survey-server-mu.vercel.app/allSurveys"),
       },
       {
         path: "/dashboard/managePayment",
@@ -100,7 +99,7 @@ const router = createBrowserRouter([
         path: "/dashboard/updateSurvey/:id",
         element: <UpdateSurveys></UpdateSurveys>,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/allSurveys/${params.id}`),
+          fetch(`https://survey-server-mu.vercel.app/allSurveys/${params.id}`),
       },
     ],
   },
@@ -121,3 +120,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </QueryClientProvider>
   </React.StrictMode>
 );
+
+

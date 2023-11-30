@@ -7,7 +7,7 @@ const SeeAllUsers = () => {
 
   const fetchAllUsers = async () => {
     try {
-      const response = await fetch("http://localhost:5000/users");
+      const response = await fetch("https://survey-server-mu.vercel.app/users");
       const data = await response.json();
       setAllUsers(data);
       setFilteredUsers(data);

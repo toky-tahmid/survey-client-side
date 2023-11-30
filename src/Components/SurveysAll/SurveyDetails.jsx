@@ -16,7 +16,7 @@ const SurveyDetails = () => {
   console.log(userEmail);
   const [ProUser, setProUser] = useState();
   useEffect(() => {
-    fetch("http://localhost:5000/users")
+    fetch("https://survey-server-mu.vercel.app/users")
       .then((response) => response.json())
       .then((usersData) => {
         console.log("All Users Data:", usersData);
@@ -42,7 +42,7 @@ const SurveyDetails = () => {
   };
   const handleVote = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/allSurveys/${_id}`, {
+      const response = await fetch(`https://survey-server-mu.vercel.app/allSurveys/${_id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const SurveyDetails = () => {
         email: user?.email,
       };
       const updatedReviews = [newReview];
-      const response = await fetch("http://localhost:5000/api/add-review", {
+      const response = await fetch("https://survey-server-mu.vercel.app/api/add-review", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
