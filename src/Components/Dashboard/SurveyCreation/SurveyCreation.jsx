@@ -9,13 +9,15 @@ const SurveyCreation = () => {
     const title = form.title.value;
     const category = form.category.value;
     const pending = 'unPublish'
+    const total_votes = 0
 
     const newJobs = {
       title,
       short_description,
       long_description,
       category,
-      pending
+      pending,
+      total_votes
     };
 
     fetch("https://survey-server-mu.vercel.app/allSurveys", {

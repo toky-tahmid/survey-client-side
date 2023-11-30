@@ -17,6 +17,7 @@ const SurveysAll = () => {
     fetch(`https://survey-server-mu.vercel.app/pendingSurvey?pending=Publish`)
       .then((res) => res.json())
       .then((data) => setSurveys(data));
+      
   };
   useEffect(() => {
     let currentUser;
