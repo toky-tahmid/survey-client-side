@@ -1,7 +1,6 @@
 Website Live Link:https://survey-website-7a2c3.web.app
 
-Q. Create a readme with at least 5 bullet points for the client?
-Ans:
+
 1.Home:Here user can see navbar, banner, and Featured Surveys Section that will have Most voted surveys and Latest Surveys Section that will have Most recently created survey.also there is static testimonial section that have the users review and FAQ and a simple footer.
 
 2.Survey Page:Here a user can see all the surveys added by the surveyor and can see the details of the survey.
